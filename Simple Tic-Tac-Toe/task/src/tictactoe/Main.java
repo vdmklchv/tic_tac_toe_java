@@ -7,6 +7,7 @@ public class Main {
 
     private static final int ENDGAME = 1;
     private static final int CONTINUE_GAME = 0;
+
     public static void main(String[] args) {
 
 
