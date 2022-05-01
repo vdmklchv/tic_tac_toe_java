@@ -99,7 +99,7 @@ public class Main {
             System.out.println("O wins");
             return ENDGAME;
         }
-        return 0;
+        return CONTINUE_GAME;
     }
 
     static boolean hasEmptyCells(String[][] field) {
