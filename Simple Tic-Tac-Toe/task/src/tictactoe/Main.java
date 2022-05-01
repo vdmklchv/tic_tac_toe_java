@@ -4,11 +4,17 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
+
+    private static final int ENDGAME = 1;
+    private static final int CONTINUE_GAME = 0;
     public static void main(String[] args) {
+
+
         // set up the empty field as 2d array
         String[][] field = setGameField();
 
         // game state
+
         String activePlayer = "X";
 
         // print starting grid
@@ -66,31 +72,31 @@ public class Main {
         if ((hasThreeInARow(field, "X") && (hasThreeInARow(field, "O")) ||
                 Math.abs(countElement(field, "X") - countElement(field, "O")) >= 2)) {
             System.out.println("Impossible");
-            return 1;
+            return ENDGAME;
         }
 
         // GAME NOT FINISHED (if field has empty cells and no-one has a winning combination
         if (hasEmptyCells(field) && !hasThreeInARow(field, "X") && !hasThreeInARow(field,"O")) {
-            return 0;
+            return CONTINUE_GAME;
         }
 
         // DRAW (no empty cells and no winning combination)
         if (!hasEmptyCells(field) && !hasThreeInARow(field, "X") && !hasThreeInARow(field,"O")) {
             System.out.println("Draw");
-            return 1;
+            return ENDGAME;
         }
 
         // WIN
         // check if X is a winner
         if (hasThreeInARow(field, "X")) {
             System.out.println("X wins");
-            return 1;
+            return ENDGAME;
         }
 
         // check if O is a winner
         if (hasThreeInARow(field, "O")) {
             System.out.println("O wins");
-            return 1;
+            return ENDGAME;
         }
         return 0;
     }
@@ -107,15 +113,15 @@ public class Main {
         return false;
     }
 
-    static boolean hasThreeInARow(String[][] field, String element) {
+    static boolean hasThreeInARow(String[][] field, String playerToken) {
         /* checks if given player has a winning combination
          */
         // HORIZONTAL
         int counter = 0;
 
         for (int row = 0; row < 3; row++) {
-            for (int el = 0; el < 3; el++) {
-                if (field[row][el].equals(element)) {
+            for (int element = 0; element < 3; element++) {
+                if (field[row][element].equals(playerToken)) {
                     counter++;
                 }
             }
@@ -127,9 +133,9 @@ public class Main {
         }
 
         // VERTICAL
-        for (int el = 0; el < 3; el++) {
+        for (int element = 0; element < 3; element++) {
             for (int row = 0; row < 3; row++) {
-                if (field[row][el].equals(element)) {
+                if (field[row][element].equals(playerToken)) {
                     counter++;
                 }
             }
@@ -143,7 +149,7 @@ public class Main {
         // DIAGONALLY
         // from left to right bottom
         for (int i = 0, j = 0; i < 3; i++, j++) {
-            if (field[i][j].equals(element)) {
+            if (field[i][j].equals(playerToken)) {
                 counter++;
             }
 
@@ -156,7 +162,7 @@ public class Main {
         counter = 0;
 
         for (int i = 0, j = 2; i < 3; i++, j--) {
-            if (field[i][j].equals(element)) {
+            if (field[i][j].equals(playerToken)) {
                 counter++;
             }
 
@@ -167,14 +173,14 @@ public class Main {
         return false;
     }
 
-    static int countElement(String[][] field, String element) {
+    static int countElement(String[][] field, String playerToken) {
         /* Helper function to calculate how many elements of certain
         type are currently on the field. Returns integer count.
          */
         int count = 0;
         for (String[] row: field) {
-            for (String el: row) {
-                if (el.equals(element)) {
+            for (String element: row) {
+                if (element.equals(playerToken)) {
                     count++;
                 }
             }
